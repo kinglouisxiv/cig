@@ -1,14 +1,8 @@
-# gci.py
+# cig.py
 
-Generalised Comic Indexer
+ Comic Indexer Generator
 
-gci.py builds formatted files listing comic pages with descriptions and tags for common elements into html parts for inclusion in a web page.
-
-* Generalised -- which it isn't yet -- refers to the intention to make it handle different comic urls specified in the data files rather than hard coding into comic-specific versions of the script.
-
-* Comic -- this is aimed at indexing page to page details of web comics, but the mechanism is pretty general and could be used for other tagged lists.
-
-* Indexer -- ah, well, um, actually _someone_ has to do the actual indexing, this script just makes it prettier and more useful.
+gci.py is a python script which reads a text file of "Key: value" pairs (index file), and a file of "tag \t definition" pairs (tags file), outputs html parts for an index page.
 
 The html output is intended to work with handler.js from [snipergirl/gunnerkrigg](https://github.com/snipergirl/gunnerkrigg) for select/show/hide of commonly tagged items -- flat file, no database.
 
@@ -35,79 +29,35 @@ optional arguments:
                         pages list filename (default: pages.html)
 ```
 
-## Input files
+## The Index file
 
-### Index
+Key	| Use
+-----	|----
+page:	| comic page ID and link: heads a comic page entry. 
+url:	| the actual comic page url (no url, no link)
+tag:	| a tag for the page's story: character, item, location, etc.
+desc:	| a description of the page's story
+note:	| other non-story text (_not yet implemented_)
+;	| comment line: internal, not for processing,
 
-The index file is a list of pages, with tab separated associated tags and comments and optional tag definitions. (Tab definitions can also be supplied in a separate file)
-
-```
-pageid <tab> tag <tab> ... <tab> tagN <tab>#text
-@ <tab> tag1 <tab> text
-; in-file comment - discarded in processing
-```
-
-lines starting:
-
-**;**
-
-- in line comments, discarded in processing
-
-**@**
-
-- in line tag definition -- deprecated: use a tags file
-
-_url:_
-
-- _**not yet implemented**, sets the url for subsequent pageids. Allows index file to be self-contained, and allows switching between, for instance, main and branch comics._
-
-Line format otherwise:
-
-**pageid** 
-
-- usually the unique portion of the page's url: often a page number, or date, or title. Treated as a string.
-
-**tag**
-
-- there can be any number of tags (0--NN)
-- tags must be unique when made lower case, and 
-- must be valid as css class names (for the selection mechanism)
-- tags starting "ch-" are also treated as chapter/book identifiers
-
-**#**
-
-- Start of text description or comment, which is processed for Markdown formatting.
-- feature: there must not be tab characters after the #
-
-### Tags
-
-The tags file contains the tag definitions. A tag does not have to be defined to be used.
-
-```
-tag1 <tab> definition
-; in line comment - discarded in processing
-```
-
-lines starting:
-
-**;**
-
-- in line comments, discarded in processing
-
-Line format otherwise:
-
-**tag**
-
-- tags must be unique when made lower case, and 
-- must be valid as css class names (for the selection mechanism)
-
-**definition**
-
-- text description or comment, which is processed for Markdown formatting
+**Suggestion**: page: should be left-aligned, other keys should have leading whitespace to clearly show their subordinate relationship to the preceding page:.
 
 
+The Tag File
+---------------
 
+The tags definition file is: 
 
+- comments, marked by leading semicolon ";"
+- tag & definition pairs, tab separated
+
+**tag** as above: a tag should be valid as an html class. Last definition wins
+
+**Processing**: definition text is processed for simple Markdown formatting & links, and html passthrough.
+
+----
+
+Example input files at 
 
 
 
