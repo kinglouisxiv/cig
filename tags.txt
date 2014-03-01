@@ -1,0 +1,76 @@
+; --- TAGS ---
+; reminder: this is comment - in case you need to flag changes, etc...
+; internal formatting is a mix of Markdown plus html (for <br> etc)
+; **bold**
+; _italic_
+; [internal link text](#sometag)
+; [external link text](http://www.gunnerkrigg.com)
+Annie	Antimony Carver, our protagonist ([fire](#fire) Head Girl) _{[wiki](http://gunnerkrigg.wikia.com/wiki/Antimony_Carver)}_
+Bats	The animal kind.
+Cover	A chapter cover _{[wiki](http://gunnerkrigg.wikia.com/wiki/Category:Chapter_Covers)}_
+DeathsHead	admissions clerk to the [Realm of the Dead](#rotd), a 2 dimensional skull
+Etherium	The world/realm of the Ether _{[wiki](http://gunnerkrigg.wikia.com/wiki/Etheric_Sciences)}_
+FinalRecords	A part of the [Realm of the Dead](#rotd)
+Gamma	Gamma Czarnecki, a quiet girl from Poland who only speaks Polish; friends with [Zimmy](#zimmy) who she met in [Birmingham](#zimmingham); a Greek letter &Gamma;/&gamma; equivalent to our letter "G" _{[wiki](http://gunnerkrigg.wikia.com/wiki/Gamma)}_
+Hammer	A tool for driving nails into things or beating things into shape
+JumpersPool	waterfall into a small lake in an open part of Gillitie
+Kat	Katerina Donlan, the scientifically inclined best friend of [Annie](#annie), also close to [Paz](#paz); [Anja](#anja) & [Donny](#donny) Donlan's daughter, sometimes called Katja by her mother _{[wiki](http://gunnerkrigg.wikia.com/wiki/Katerina_Donlan)}_
+Librarian	guardian of the library of the [Realm of the Dead](#rotd)
+Mort	A [ghost](#ghosts) who haunts part of the school
+NancyDrew	A series of books featuring a teenage girl solving mysteries
+Ocean	A whole bunch of [water](#water)
+Octopus	A flying / floating octopus
+Psychopomps	Escort the dead to the afterlife/[Ether](#etherium) _{[wiki](http://gunnerkrigg.wikia.com/wiki/Psychopomps)}_
+; Chapter TAGS
+ch-01	The Shadow and The Robot
+ch-02	Schoolyard Myths
+ch-03	Reynardine
+ch-04	Not Very Scary
+ch-05	Two Strange girls
+ch-06	A Handful of Dirt
+ch-07	Of New and Old
+ch-08	Broken Glass and Other Things
+ch-09	Questions and Answers
+ch-10	Doctor Disaster versus the Creepy Space Aliens from Outer Space
+ch-11	Dobranoc, Gamma
+ch-12	Mainly Involves Robots
+ch-13	A Week For Kat
+ch-14	The Fangs Of Summertime
+ch-14a	Intermission: A Selection of Guest Comics and Other Surprises
+ch-15	Red Returns
+ch-16	A Ghost Story
+ch-17	The Medium Beginning
+ch-18	S1
+ch-19	Power Station
+ch-20	Coyote Stories
+ch-21	Blinking
+ch-22	Ties
+ch-22a	Intermission: City Face
+ch-23	Terror Castle of the Jupiter Moon Martians! A spacemonauts adventure!
+ch-24	Residential
+ch-25	Sky Watcher And The Angel
+ch-26	The Old Dog’s Tricks
+ch-27	Spring Heeled
+ch-28	Spring Heeled Part 2
+ch-29	A Bad Start
+ch-30	The Coward Heart
+ch-31	Fire Spike
+ch-31a	Intermission: City Face 2
+ch-31b	Annie in the Forest, part 1
+ch-32	From the Forest She Came
+ch-33	Give and Take
+ch-34	Faraway Morning (and three short tales)
+ch-35	Parley and Smitty Are In This One
+ch-36	Red Gets a Name
+ch-37	Microsat 5
+ch-38	Divine
+ch-39	The Great Secret
+ch-40	The Stone
+ch-41	Changes
+ch-41a	Intermission: City Face guest comics
+ch-42	Catalyst
+ch-43	Quicksilver
+ch-44	Crash Course
+ch-45	Thread
+ch-46	The Realm of the Dead
+; ---TAGS EOF ---

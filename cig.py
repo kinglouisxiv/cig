@@ -1,7 +1,7 @@
 #! python
 # -*- coding: utf-8 -*-
 
-# version date 2014-02-23
+# version date 2014-02-27
 
 import string
 import collections
@@ -164,8 +164,8 @@ def TagsOut():
     Now with added Miracle Markdown processing!
     (hence the codecs)
     '''
-    f = codecs.open(listtagfile, mode='w', encoding="utf-8") # taglist
-    fch = codecs.open(bookfile, mode='w', encoding="utf-8") #book/chapter list
+    f = codecs.open(listtagfile, mode='w', encoding="utf-8")    # taglist
+    fch = codecs.open(bookfile, mode='w', encoding="utf-8")     #book/chapter list
     for eachkey in sorted(tagdict):
         # separate off chapter id tags
         if eachkey.lower()[:3] == "ch-":
@@ -174,8 +174,7 @@ def TagsOut():
             fch.write( '{0}</span> [{1}] '.format(eachkey, tagcount[eachkey]) )
             # markdown conversion
             marky = markdown.markdown( tagdict[eachkey], extensions=['smartypants'] )
-            # strip the unwanted para wrapper for writing
-            fch.write( marky[3:-4] )
+            fch.write( marky[3:-4] )            # strip the unwanted para wrapper
             fch.write( '</p>\n' )
         else:
             f.write( '<p id="{0}" class="tags">'.format(eachkey.lower()))
@@ -190,28 +189,35 @@ def TagsOut():
     fch.close()
 
 def PageOut(pageID, pageDesc, pageNote, pageTags, pageURL):
-    '''Write page, tag & description block.'''
-    # TODO: look at adding generic urls that the pageid plugs into: can probably do that just by checking for a {0} in the url string
-    # TODO: add note: processing (same as desc:)
+    '''Write page, tag, description & note block.'''
     f = codecs.open(pagesfile, mode='a', encoding="utf-8")
-    f.write( '<p class="comicpage')     # '<p class="comicpage'
+    f.write( '<p class="comicpage')                 # '<p class="comicpage'
     pageTags.sort()
-    for tag in pageTags:                # write the page tags as css classes
-        f.write(' ')                    # '<p class="comicpage '
-        f.write( tag.lower() )                  # '<p class="comicpage tag1 ...'
-    f.write( '" id="p{0}">\n'.format( pageID ) )  # '<p class="comicpage tag1" id="pPAGEID">\n'
-    f.write('<a href="{0}" target="_blank">p.{1}</a>\n'.format( pageURL, pageID  ) )
-    marky = markdown.markdown( pageDesc, extensions=['smartypants'] )    # markdown conversion of the description/comment
-    if marky == "":                                                      # strip unwanted markdown para for writing
-        pass                                                             # skip on a blank
-    else:
-        f.write( '<span class="description">{0}</span><br>\n'.format( marky[3:-4] ) )
-    # add note: processing here
-    # now write the tags as tag blobs
-    for tag in pageTags:
+    for tag in pageTags:                            # write the page tags as css classes
+        f.write(' ')                                # '<p class="comicpage '
+        f.write( tag.lower() )                      # '<p class="comicpage tag1 ...'
+    f.write( '" id="p{0}">\n'.format( pageID ) )    # '<p class="comicpage tag1" id="pPAGEID">\n'
+    f.write( '<a href="{0}" target="_blank">p.{1}</a>\n'.format( pageURL.format(pageID), pageID ) ) # if there's a {0} in pageURL, pageID is substituted
+
+    text = MarkIt(pageDesc, 'pageDesc')
+    if text != "":
+        f.write( '{0}<br>\n'.format( text ) )
+    text = MarkIt(pageNote, 'pageNote')
+    if text != "":
+        f.write( '{0}<br>\n'.format( text ) )
+
+    for tag in pageTags:                            # now write the tags as tag blobs
         f.write( '<span class="tag {0}">{1}</span>\n'.format( tag.lower(), tag ))
     f.write('</p>\n')
     f.close()
+
+def MarkIt( text, classname):
+    '''returns a <span> of Markdown converted text or nothing'''
+    marky = markdown.markdown( text, extensions=['smartypants'] )    # markdown conversion of the text
+    if marky != "":                                                      # strip unwanted markdown para for writing
+        marky = '<span class="{0}">{1}</span>'.format( classname, marky[3:-4] )
+    return marky
+
 
 if __name__ == '__main__':
 	main()

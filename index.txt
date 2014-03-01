@@ -1,0 +1,128 @@
+; --- INDEX ---
+; lines starting with ; as first no-whitespace are comments
+; - in case you need to flag changes, etc...
+; File format is single lines formatted as Key:Value
+; KEYS
+;	page: 	comic page ID and link: heads a comic page entry.
+;	url: 	the actual comic page url (no url, no link)
+;		(to insert pageID replace in the url with {0} )
+;	tag: 	tags for the page's story items of note: character, item, location, etc.
+;	desc: 	text relevant to the page (description, line of dialogue, etc)
+;	note:	footnotes, links, etc
+; Can use multiple tags per page, but only one of each of the other keys
+;
+; Desc: text's internal formatting is a mix of [Markdown](http://daringfireball.net/projects/markdown) plus html (for <br> etc)
+; **bold**
+; _italic_
+; [internal link text](#sometag) - tag links are lower case
+; [external link text](http://www.gunnerkrigg.com)
+; tags starting ch- are chapter identifiers
+;
+page:1320
+	url: http://www.gunnerkrigg.com/?p={0}
+	tag: ch-46
+	tag: Annie
+	tag: FinalRecords
+	tag: Kat
+	tag: Mort
+	tag: Rolodex
+	desc: And to help you practice... I want you to take me into the ether
+page:1319
+	url: http://www.gunnerkrigg.com/?p={0}
+	tag: ch-46
+	tag: Annie
+	tag: FinalRecords
+	tag: Kat
+	tag: Librarian
+	tag: Mort
+	desc: Well don't blame me if you can't do your job right!
+page:1308
+	url:http://www.gunnerkrigg.com/?p=1308
+	tag:ch-46
+	tag:Annie
+	tag:Bats
+	tag:Kat
+	tag:Librarian
+	tag:Mort
+	tag:Rolodex
+	tag:Zombie
+	desc:_This_ is the library?
+	note: _Tom: The ROTD is pretty proud of its library_
+page:1307
+	url:http://www.gunnerkrigg.com/?p=1307
+	tag:ch-46
+	tag:Annie
+	tag:Bats
+	tag:Cells
+	tag:Cobwebs
+	tag:Kat
+	tag:Moon
+	tag:Mort
+	tag:JackOLantern
+	tag:ROTD
+	tag:Spider
+	tag:Tombstone
+	tag:Zombie
+	desc:I think they have a library around here somewhere
+	note: _Tom: This labyrinth of madness_
+page:1306
+	url:http://www.gunnerkrigg.com/?p=1306
+	tag:ch-46
+	tag:Annie
+	tag:Bats
+	tag:DeathsHead
+	tag:Kat
+; NB Annie in the Forest side-comic shares page numbers with the main comic so needs a 
+; different page ID scheme, thus can't use {0} substitution in the urls
+page:AitF-32
+	tag:ch-31b
+	tag:Annie
+	tag:Gillitie
+	tag:Irial
+	tag:JumpersPool
+	tag:Kamlen
+	desc: Annie, this here is my love, Irial
+	url:http://www.gunnerkrigg.com/extracomics/comic.php?c=Annie%20in%20the%20Forest%20Part%201&p=32
+page:AitF-31
+	tag:ch-31b
+	tag:Annie
+	tag:Gillitie
+	tag:JumpersPool
+	tag:Kamlen
+	desc: Annie!
+	url:http://www.gunnerkrigg.com/extracomics/comic.php?c=Annie%20in%20the%20Forest%20Part%201&p=31
+page:AitF-30
+	tag:ch-31b
+	tag:Annie
+	tag:Blush
+	tag:Gillitie
+	tag:Kamlen
+	tag:Ysengrin
+	desc: Is there nothing here you like?
+	url:http://www.gunnerkrigg.com/extracomics/comic.php?c=Annie%20in%20the%20Forest%20Part%201&p=30
+page:32
+	url:http://www.gunnerkrigg.com/?p={0}
+	tag:Bonus
+	tag:Dorm
+	tag:Queslett
+	tag:Shadow
+	tag:Tea
+	desc:Bonus Page: Year 7 Dormitories
+page:31
+	url:http://www.gunnerkrigg.com/?p={0}
+	tag:ch-02
+	tag:Annie
+	tag:Basil
+	tag:Classroom
+	tag:Janet
+	tag:Kat
+	tag:John
+	desc:I hope all our homework is this interesting.
+page:30
+	url:http://www.gunnerkrigg.com/?p={0}
+	tag:ch-02
+	tag:Annie
+	tag:Basil
+	tag:Classroom
+	desc:And now of course, I turn out to be the bad guy.
+; --- INDEX EOF ---
