@@ -6,7 +6,6 @@ gci.py is a python script which reads a text file of "Key: value" pairs (index f
 
 The html output is intended to work with handler.js from [snipergirl/gunnerkrigg](https://github.com/snipergirl/gunnerkrigg) for select/show/hide of commonly tagged items -- flat file, no database.
 
-
 ```
 usage: gci.py [-h] [-i INPATH] [-o OUTPATH] [-x NDEX] [-t TAGS] [-u UPDATE]
               [-l LIST] [-b BOOK] [-p PAGES]
@@ -29,7 +28,12 @@ optional arguments:
                         pages list filename (default: pages.html)
 ```
 
-## The Index file
+
+
+Input files
+-----------
+
+### The Index file
 
 Key	| Use
 -----	|----
@@ -37,14 +41,15 @@ page:	| comic page ID and link: heads a comic page entry.
 url:	| the actual comic page url (no url, no link)
 tag:	| a tag for the page's story: character, item, location, etc.
 desc:	| a description of the page's story
-note:	| other non-story text (_not yet implemented_)
+note:	| other, non-story text, links 
 ;	| comment line: internal, not for processing,
 
-**Suggestion**: page: should be left-aligned, other keys should have leading whitespace to clearly show their subordinate relationship to the preceding page:.
+The url can include a placeholder {0} which will be substituted with the page's ID. Only use this if the page ID is an appropriate format.
+
+**Suggestion**: page: should be left-aligned, other keys should have leading whitespace to clearly show their subordinate relationship to the preceding page: key.
 
 
-The Tag File
----------------
+### The Tag File
 
 The tags definition file is: 
 
@@ -53,11 +58,16 @@ The tags definition file is:
 
 **tag** as above: a tag should be valid as an html class. Last definition wins
 
-**Processing**: definition text is processed for simple Markdown formatting & links, and html passthrough.
+**Processing**: definition text is processed for simple Markdown formatting & links, and html passthrough. Tags starting "ch-" are treated as chapter markers.
 
-----
+Output Files
+------------
 
-Example input files at 
+- chapter.html -- lists chapter (ch-*) definitions and occurrence counts, separate from the main tag list
+- pages.html -- the page files
+- tags.html -- the tags, occurrence counts and definitions
+- update.html -- time and date of run, counts
+
 
 
 
