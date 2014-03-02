@@ -2,7 +2,7 @@
 
  Comic Indexer Generator
 
-gci.py is a python script which reads a text file of "Key: value" pairs (index file), and a file of "tag \t definition" pairs (tags file), outputs html parts for an index page.
+cig.py is a python script which reads a text file of "Key: value" pairs (index file), and a file of "tag \t definition" pairs (tags file), outputs html parts for an index page.
 
 The html output is intended to work with handler.js from [snipergirl/gunnerkrigg](https://github.com/snipergirl/gunnerkrigg) for select/show/hide of commonly tagged items -- flat file, no database.
 
@@ -50,6 +50,7 @@ The url can include a placeholder {0} which will be substituted with the page's 
 
 **Suggestion**: page: should be left-aligned, other keys should have leading whitespace to clearly show their subordinate relationship to the preceding page: key.
 
+example: index.txt
 
 ### The Tag File
 
@@ -62,6 +63,8 @@ The tags definition file is:
 
 **Processing**: definition text is processed for simple Markdown formatting & links, and html passthrough. Tags starting "ch-" are treated as chapter markers.
 
+example: tags.txt
+
 Output Files
 ------------
 
@@ -69,9 +72,5 @@ Output Files
 - pages.html -- the page entries
 - tags.html -- the tags, occurrence counts and definitions
 - update.html -- time and date of run, counts
-
-
-
-
 
 
