@@ -1,7 +1,7 @@
 #! python
 # -*- coding: utf-8 -*-
 
-# version date 2014-02-27
+# version date 2014-03-02
 
 import string
 import collections
@@ -99,11 +99,13 @@ def IndexIn(definedtags, totalpages):
             # do new page stuff
             totalpages += 1
             if pageID > "":                         # there is a previous page, so output it
-                PageOut (pageID, pageDesc, pageNote, pageTags, pageURL)
+                PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL)
             else:                                   # this is the first page:
                 f = codecs.open(pagesfile, mode='w', encoding="utf-8")  # clear the output ready to append
                 f.close()
             pageID = stripline[5:]
+            pageAuth = ""
+            pageDate = ""
             pageDesc = ""
             pageNote = ""
             pageTags = []
@@ -131,20 +133,30 @@ def IndexIn(definedtags, totalpages):
         elif stripline[0:5].lower() == "desc:":
             # this is a description
             if pageID > "":
-                pageDesc = stripline[5:]
+                pageDesc = stripline[5:].strip()
             else:                               # no page: yet print so print & discard
                 print stripline
         elif stripline[0:5].lower() == "note:":
             if pageID > "":
-                pageNote = stripline[5:]
-            else:                               # no page: yet print so print & discard
+                pageNote = stripline[5:].strip()
+            else:
+                print stripline
+        elif stripline[0:5].lower() == "auth:":
+            if pageID > "":
+                pageAuth = stripline[5:].strip()
+            else:
+                print stripline
+        elif stripline[0:5].lower() == "date:":
+            if pageID > "":
+                pageDate = stripline[5:].strip()
+            else:
                 print stripline
         else:
             print "UNKNOWN: " + stripline
     f.close()
     if pageID > "":
         # there is a previous page, so output it
-        PageOut (pageID, pageDesc, pageNote, pageTags, pageURL)
+        PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL)
     return definedtags, totalpages
 
 def DateCountsOut(tags,pages):
@@ -188,7 +200,7 @@ def TagsOut():
     f.close()
     fch.close()
 
-def PageOut(pageID, pageDesc, pageNote, pageTags, pageURL):
+def PageOut(pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL):
     '''Write page, tag, description & note block.'''
     f = codecs.open(pagesfile, mode='a', encoding="utf-8")
     f.write( '<p class="comicpage')                 # '<p class="comicpage'
@@ -204,6 +216,12 @@ def PageOut(pageID, pageDesc, pageNote, pageTags, pageURL):
         f.write( '{0}<br>\n'.format( text ) )
     text = MarkIt(pageNote, 'pageNote')
     if text != "":
+        f.write( '{0}<br>\n'.format( text ) )
+    text = MarkIt(pageAuth, 'pageAuth')
+    if text != "":
+        f.write( '{0}<br>\n'.format( text ) )
+    if pageDate != "":
+        text = MarkIt('<time>'+pageDate+'</time>', 'pageDate')
         f.write( '{0}<br>\n'.format( text ) )
 
     for tag in pageTags:                            # now write the tags as tag blobs
