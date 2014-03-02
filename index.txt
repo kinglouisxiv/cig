@@ -1,7 +1,7 @@
 ; --- TEST INDEX ---
 ; a test file for cig.py
 ;
-; lines starting with ; as first no-whitespace are comments
+; lines starting with ; as first non-whitespace are comments
 ; 
 ; File format is single lines formatted as Key:Value
 ;

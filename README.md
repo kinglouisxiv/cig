@@ -50,7 +50,19 @@ The url can include a placeholder {0} which will be substituted with the page's 
 
 **Suggestion**: page: should be left-aligned, other keys should have leading whitespace to clearly show their subordinate relationship to the preceding page: key.
 
-example: index.txt
+example index page entry:
+```
+page:1321
+	auth: Tom: Don't let the door hit you on the way out, buddy.
+	desc: Bonus Page: But... it's my room...
+	note: a different perspective on the bottom left panel of [p.1319](#p1319)
+	tag: Bonus
+	tag: ch-46
+	tag: FinalRecords
+	tag: Kat
+	tag: Librarian
+	url: http://www.gunnerkrigg.com/?p={0}
+```
 
 ### The Tag File
 
@@ -63,7 +75,11 @@ The tags definition file is:
 
 **Processing**: definition text is processed for simple Markdown formatting & links, and html passthrough. Tags starting "ch-" are treated as chapter markers.
 
-example: tags.txt
+example tag entry: 
+
+```
+Kat	Katerina Donlan, the scientifically inclined best friend of [Annie](#annie), also close to [Paz](#paz); [Anja](#anja) & [Donny](#donny) Donlan's daughter, sometimes called Katja by her mother _{[wiki](http://gunnerkrigg.wikia.com/wiki/Katerina_Donlan)}_
+```
 
 Output Files
 ------------
