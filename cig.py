@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # version date 2014-03-02
+# TODO: handle missing url: properly
 
 import string
 import collections
@@ -182,16 +183,16 @@ def TagsOut():
         # separate off chapter id tags
         if eachkey.lower()[:3] == "ch-":
             fch.write( '<p id="{0}" class="tags">'.format(eachkey.lower()))
-            fch.write( '<span class="tag {0}">'.format(eachkey.lower()) )
-            fch.write( '{0}</span> [{1}] '.format(eachkey, tagcount[eachkey]) )
+            fch.write( '<a href="#" class="tag {0}">'.format(eachkey.lower()) )
+            fch.write( '{0}</a> [{1}] '.format(eachkey, tagcount[eachkey]) )
             # markdown conversion
             marky = markdown.markdown( tagdict[eachkey], extensions=['smartypants'] )
             fch.write( marky[3:-4] )            # strip the unwanted para wrapper
             fch.write( '</p>\n' )
         else:
             f.write( '<p id="{0}" class="tags">'.format(eachkey.lower()))
-            f.write( '<span class="tag {0}">'.format(eachkey.lower()) )
-            f.write( '{0}</span> [{1}] '.format(eachkey, tagcount[eachkey]) )
+            f.write( '<a href="#" class="tag {0}">'.format(eachkey.lower()) )
+            f.write( '{0}</a> [{1}] '.format(eachkey, tagcount[eachkey]) )
             # markdown conversion
             marky = markdown.markdown( tagdict[eachkey], extensions=['smartypants'] )
             # strip the unwanted para wrapper for writing
@@ -225,7 +226,7 @@ def PageOut(pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL):
         f.write( '{0}<br>\n'.format( text ) )
 
     for tag in pageTags:                            # now write the tags as tag blobs
-        f.write( '<span class="tag {0}">{1}</span>\n'.format( tag.lower(), tag ))
+        f.write( '<a href="#" class="tag {0}">{1}</a>\n'.format( tag.lower(), tag ))
     f.write('</p>\n')
     f.close()
 
