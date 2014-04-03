@@ -1,8 +1,7 @@
 #! python
 # -*- coding: utf-8 -*-
 
-# version date 2014-03-02
-# TODO: handle missing url: properly
+# version 1.1.0 - adds baseurl, a default url path
 
 import string
 import collections
@@ -51,9 +50,7 @@ else:
 # junk = raw_input("type return: ")
 
 tagdict = {}	# tags : definitions
-# pagelist = []	# list of page lines
 tagcount = collections.Counter()
-
 
 def main():
     tags = 0
@@ -77,7 +74,7 @@ def TagsIn(definedtags):
     f = codecs.open(tagsfile, mode='r', encoding="utf-8")
     for line in f:
         stripline = line.strip()
-        if stripline[0:1] == ';':                       # it's a comment
+        if stripline[0:1] == ';':       # it's a comment
             print stripline
         else:
             field = stripline.split("\t")
@@ -86,10 +83,13 @@ def TagsIn(definedtags):
     f.close()
     return definedtags
 
+
 def IndexIn(definedtags, totalpages):
     ''' Read the page data, separate elements (tags, pages) into dicts and lists, print & discard comments
         Using Codecs now because of Markdown requirements later
     '''
+    baseURL = ""
+    newURL = ""
     pageID = ""
     f = codecs.open(indexfile, mode='r', encoding="utf-8")
     for line in f:
@@ -100,7 +100,7 @@ def IndexIn(definedtags, totalpages):
             # do new page stuff
             totalpages += 1
             if pageID > "":                         # there is a previous page, so output it
-                PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL)
+                PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL, baseURL)
             else:                                   # this is the first page:
                 f = codecs.open(pagesfile, mode='w', encoding="utf-8")  # clear the output ready to append
                 f.close()
@@ -111,14 +111,18 @@ def IndexIn(definedtags, totalpages):
             pageNote = ""
             pageTags = []
             pageURL = ""
+            baseURL = newURL
         elif stripline[0:4].lower() == "url:":
             if pageID > "":
-                # add a check for duplicate URLs
-                pageURL = cgi.escape(stripline[4:].strip())     #cgi.escape to handle & characters
-            else:                               # no page: yet, so print & discard
+                # add a check for duplicate URLs?
+                pageURL = cgi.escape(stripline[4:].strip()) #cgi.escape to handle & characters
+            else:                                           # no page: yet, so print & discard
                 print stripline
+        elif stripline[0:8].lower() == "baseurl:":
+            # put into a holding variable and update baseURL at next page:
+            newURL = cgi.escape(stripline[8:].strip())     #cgi.escape to handle & characters
         elif stripline[0:4].lower() == "tag:":
-            # ...add some more validation...
+            # ...add some validation to reject invalid characters
             sometag = stripline[4:].strip()
             if sometag == "":
                 print "Empty tag in " + pageID
@@ -157,8 +161,9 @@ def IndexIn(definedtags, totalpages):
     f.close()
     if pageID > "":
         # there is a previous page, so output it
-        PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL)
+        PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL, baseURL)
     return definedtags, totalpages
+
 
 def DateCountsOut(tags,pages):
     ''' Write update (i.e. run) time, counts to html file.
@@ -169,6 +174,7 @@ def DateCountsOut(tags,pages):
     f.write( '<p class="quiet right">updated <time>{0}</time> UTC<br>\n'.format(d.isoformat()[:16]))
     f.write( '{0} pages indexed, {1} tags defined</p>\n'.format(pages, tags))
     f.close()
+
 
 def TagsOut():
     ''' Writes out the tag & desc index block.
@@ -193,25 +199,30 @@ def TagsOut():
             f.write( '<p id="{0}" class="tags">'.format(eachkey.lower()))
             f.write( '<a href="#" class="tag {0}">'.format(eachkey.lower()) )
             f.write( '{0}</a> [{1}] '.format(eachkey, tagcount[eachkey]) )
-            # markdown conversion
+            # do markdown conversion
             marky = markdown.markdown( tagdict[eachkey], extensions=['smartypants'] )
-            # strip the unwanted para wrapper for writing
-            f.write( marky[3:-4] )
+            f.write( marky[3:-4] )              # strip the unwanted para wrapper for writing
             f.write( '</p>\n' )
     f.close()
     fch.close()
 
-def PageOut(pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL):
-    '''Write page, tag, description & note block.'''
-    f = codecs.open(pagesfile, mode='a', encoding="utf-8")
-    f.write( '<p class="comicpage')                 # '<p class="comicpage'
-    pageTags.sort()
-    for tag in pageTags:                            # write the page tags as css classes
-        f.write(' ')                                # '<p class="comicpage '
-        f.write( tag.lower() )                      # '<p class="comicpage tag1 ...'
-    f.write( '" id="p{0}">\n'.format( pageID ) )    # '<p class="comicpage tag1" id="pPAGEID">\n'
-    f.write( '<a href="{0}" target="_blank">p.{1}</a>\n'.format( pageURL.format(pageID), pageID ) ) # if there's a {0} in pageURL, pageID is substituted
 
+def PageOut(pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL, baseURL):
+    '''Write page, tag, description & note block.'''
+
+    f = codecs.open(pagesfile, mode='a', encoding="utf-8")
+    f.write( '<p class="comicpage')             # '<p class="comicpage'
+    pageTags.sort()
+    for tag in pageTags:                        # write the page tags as css classes
+        f.write(' ')                            # '<p class="comicpage '
+        f.write( tag.lower() )                  # '<p class="comicpage tag1 ...'
+    f.write( '" id="p{0}">\n'.format( pageID )) # '<p class="comicpage tag1" id="pPAGEID">\n'
+    if pageURL == "":                           # pageURL defaults to baseURL if not specified
+        pageURL = baseURL                       # TODO: Q. should baseurl be a cmdline argument?
+    if pageURL == "":                           # still blank, no baseurl, so write no link
+        f.write( '<span>p.{0}</span>\n'.format( pageID ))
+    else:
+        f.write( '<a href="{0}" target="_blank">p.{1}</a>\n'.format( pageURL.format(pageID), pageID )) # if there's a {0} in pageURL, pageID is substituted
     text = MarkIt(pageDesc, 'pageDesc')
     if text != "":
         f.write( '{0}<br>\n'.format( text ) )
@@ -229,6 +240,7 @@ def PageOut(pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL):
         f.write( '<a href="#" class="tag {0}">{1}</a>\n'.format( tag.lower(), tag ))
     f.write('</p>\n')
     f.close()
+
 
 def MarkIt( text, classname):
     '''returns a <span> of Markdown converted text or nothing'''

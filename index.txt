@@ -12,8 +12,12 @@
 ;    desc:  text relevant to the page (description, line of dialogue, etc)
 ;    note:  footnotes, links, etc
 ;    tag:   tags for the page's story items of note: character, item, location, etc.
-;    url:   the actual comic page url (no url, no link)
+;    url:   the actual comic page url 
 ;           (to insert pageID replace in the url with {0} )
+;    baseurl: a default url if a url: is not specified for a page:
+;           N.B. a new baseurl: does not take effect until the next page:
+;           IF there is no url: and no baseurl: (or baseurl: is set blank)
+;           then no link is created  
 ;
 ; Can use multiple tags per page, but only one of each of the other keys
 ;
@@ -24,8 +28,8 @@
 ; [external link text](http://www.gunnerkrigg.com)
 ; tags starting ch- are chapter identifiers
 ;
+baseurl: http://www.baseurl.com/?p={0}
 page:1320
-	url: http://www.gunnerkrigg.com/?p={0}
 	tag: ch-46
 	tag: Annie
 	tag: FinalRecords
@@ -36,7 +40,6 @@ page:1320
 	auth: Tom: Continued in the next chapter
 	date: 2014-02-28
 page:1319
-	url: http://www.gunnerkrigg.com/?p={0}
 	tag: ch-46
 	tag: Annie
 	tag: FinalRecords
@@ -46,8 +49,8 @@ page:1319
 	Desc: Well don't blame me if you can't do your job right!
 	Auth: Tom: Don't mess with Kat or her friends
 	Date: 2014-02-26
+baseurl:
 page:1308
-	url:http://www.gunnerkrigg.com/?p=1308
 	tag:ch-46
 	tag:Annie
 	tag:Bats
@@ -58,8 +61,8 @@ page:1308
 	tag:Zombie
 	desc:_This_ is the library?
 	note: _Tom: The ROTD is pretty proud of its library_
+baseurl: http://www.baseurl.com/?p={0}
 page:1307
-	url:http://www.gunnerkrigg.com/?p=1307
 	tag:ch-46
 	tag:Annie
 	tag:Bats
@@ -76,7 +79,6 @@ page:1307
 	desc:I think they have a library around here somewhere
 	note: _Tom: This labyrinth of madness_
 page:1306
-	url:http://www.gunnerkrigg.com/?p=1306
 	tag:ch-46
 	tag:Annie
 	tag:Bats
@@ -112,7 +114,6 @@ page:AitF-30
 	desc: Is there nothing here you like?
 	url:http://www.gunnerkrigg.com/extracomics/comic.php?c=Annie%20in%20the%20Forest%20Part%201&p=30
 page:32
-	url:http://www.gunnerkrigg.com/?p={0}
 	tag:Bonus
 	tag:Dorm
 	tag:Queslett
@@ -120,7 +121,6 @@ page:32
 	tag:Tea
 	desc:Bonus Page: Year 7 Dormitories
 page:31
-	url:http://www.gunnerkrigg.com/?p={0}
 	tag:ch-02
 	tag:Annie
 	tag:Basil
