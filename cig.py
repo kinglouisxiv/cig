@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # version 1.1.0 - adds baseurl, a default url path
+# version 1.1.1 - re-orders output, drops some <br>, formatting now dealt with in css
 
 import string
 import collections
@@ -223,21 +224,20 @@ def PageOut(pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL, b
         f.write( '<span>p.{0}</span>\n'.format( pageID ))
     else:
         f.write( '<a href="{0}" target="_blank">p.{1}</a>\n'.format( pageURL.format(pageID), pageID )) # if there's a {0} in pageURL, pageID is substituted
+    for tag in pageTags:                        # now write the tags as tag blobs
+        f.write( '<a href="#" class="tag {0}">{1}</a>\n'.format( tag.lower(), tag ))
     text = MarkIt(pageDesc, 'pageDesc')
     if text != "":
-        f.write( '{0}<br>\n'.format( text ) )
-    text = MarkIt(pageNote, 'pageNote')
-    if text != "":
-        f.write( '{0}<br>\n'.format( text ) )
+        f.write( '{0}\n'.format( text ) )
     text = MarkIt(pageAuth, 'pageAuth')
     if text != "":
-        f.write( '{0}<br>\n'.format( text ) )
+        f.write( '{0}\n'.format( text ) )
     if pageDate != "":
         text = MarkIt('<time>'+pageDate+'</time>', 'pageDate')
-        f.write( '{0}<br>\n'.format( text ) )
-
-    for tag in pageTags:                            # now write the tags as tag blobs
-        f.write( '<a href="#" class="tag {0}">{1}</a>\n'.format( tag.lower(), tag ))
+        f.write( '{0}\n'.format( text ) )
+    text = MarkIt(pageNote, 'pageNote')
+    if text != "":
+        f.write( '{0}\n'.format( text ) )
     f.write('</p>\n')
     f.close()
 
