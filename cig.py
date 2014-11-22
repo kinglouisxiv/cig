@@ -99,6 +99,7 @@ def IndexIn(definedtags, totalpages):
             print stripline
         elif stripline[0:5].lower() == "page:":
             # do new page stuff
+            print stripline
             totalpages += 1
             if pageID > "":                         # there is a previous page, so output it
                 PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL, baseURL)
@@ -173,7 +174,7 @@ def DateCountsOut(tags,pages):
     d = datetime.utcnow()
     f = codecs.open(updatefile, mode='w', encoding="utf-8")
     f.write( '<p class="quiet right">updated <time>{0}</time> UTC<br>\n'.format(d.isoformat()[:16]))
-    f.write( '{0} pages indexed, {1} tags defined</p>\n'.format(pages, tags))
+    f.write( '{0} pages, {1} tags</p>\n'.format(pages, tags))
     f.close()
 
 
