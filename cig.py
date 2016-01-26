@@ -3,6 +3,7 @@
 
 # version 1.1.0 - adds baseurl, a default url path
 # version 1.1.1 - re-orders output, drops some <br>, formatting now dealt with in css
+# version 1.2.0 - tidy up for python 3.5 (was 2.7), markdown 2.6.5 (was 2.3.1 + smartypants 1.3)
 
 import string
 import collections
@@ -41,12 +42,12 @@ else:
     bookfile    = args.book
     pagesfile   = args.pages
 # #debug
-# print "indexfile:   " + indexfile
-# print "tagsfile:    " + tagsfile
-# print "updatefile:  " + updatefile
-# print "listtagfile: " + listtagfile
-# print "bookfile:    " + bookfile
-# print "pagesfile:   " + pagesfile
+# print ("indexfile:   " + indexfile)
+# print ("tagsfile:    " + tagsfile)
+# print ("updatefile:  " + updatefile)
+# print ("listtagfile: " + listtagfile)
+# print ("bookfile:    " + bookfile)
+# print ("pagesfile:   " + pagesfile)
 #
 # junk = raw_input("type return: ")
 
@@ -75,8 +76,9 @@ def TagsIn(definedtags):
     f = codecs.open(tagsfile, mode='r', encoding="utf-8")
     for line in f:
         stripline = line.strip()
+        print (stripline)
         if stripline[0:1] == ';':       # it's a comment
-            print stripline
+            print (stripline)
         else:
             field = stripline.split("\t")
             tagdict[field[0].strip()] = field[1].strip()
@@ -96,10 +98,10 @@ def IndexIn(definedtags, totalpages):
     for line in f:
         stripline = line.strip()     #remove leading, trailing whitespace
         if stripline[0:1] == ';':   # this is a comment
-            print stripline
+            print (stripline)
         elif stripline[0:5].lower() == "page:":
             # do new page stuff
-            print stripline
+            print (stripline)
             totalpages += 1
             if pageID > "":                         # there is a previous page, so output it
                 PageOut (pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL, baseURL)
@@ -119,7 +121,7 @@ def IndexIn(definedtags, totalpages):
                 # add a check for duplicate URLs?
                 pageURL = cgi.escape(stripline[4:].strip()) #cgi.escape to handle & characters
             else:                                           # no page: yet, so print & discard
-                print stripline
+                print (stripline)
         elif stripline[0:8].lower() == "baseurl:":
             # put into a holding variable and update baseURL at next page:
             newURL = cgi.escape(stripline[8:].strip())     #cgi.escape to handle & characters
@@ -127,13 +129,13 @@ def IndexIn(definedtags, totalpages):
             # ...add some validation to reject invalid characters
             sometag = stripline[4:].strip()
             if sometag == "":
-                print "Empty tag in " + pageID
+                print ("Empty tag in " + pageID)
             else:
                 if sometag not in tagdict:      # add new tags to comic tag list
                     tagdict[sometag] = '-'
                     definedtags += 1
                 if sometag in pageTags:         # add unique tags to page tag list
-                    print "Duplicate tag in " + pageID
+                    print ("Duplicate tag in " + pageID)
                 else:
                     pageTags.append(sometag)
                     tagcount[sometag] += 1
@@ -142,24 +144,24 @@ def IndexIn(definedtags, totalpages):
             if pageID > "":
                 pageDesc = stripline[5:].strip()
             else:                               # no page: yet print so print & discard
-                print stripline
+                print (stripline)
         elif stripline[0:5].lower() == "note:":
             if pageID > "":
                 pageNote = stripline[5:].strip()
             else:
-                print stripline
+                print (stripline)
         elif stripline[0:5].lower() == "auth:":
             if pageID > "":
                 pageAuth = stripline[5:].strip()
             else:
-                print stripline
+                print (stripline)
         elif stripline[0:5].lower() == "date:":
             if pageID > "":
                 pageDate = stripline[5:].strip()
             else:
-                print stripline
+                print (stripline)
         else:
-            print "UNKNOWN: " + stripline
+            print ("UNKNOWN: " + stripline)
     f.close()
     if pageID > "":
         # there is a previous page, so output it
@@ -194,7 +196,7 @@ def TagsOut():
             fch.write( '<a href="#" class="tag {0}">'.format(eachkey.lower()) )
             fch.write( '{0}</a> [{1}] '.format(eachkey, tagcount[eachkey]) )
             # markdown conversion
-            marky = markdown.markdown( tagdict[eachkey], extensions=['smartypants'] )
+            marky = markdown.markdown( tagdict[eachkey], extensions=['markdown.extensions.smarty'] )
             fch.write( marky[3:-4] )            # strip the unwanted para wrapper
             fch.write( '</p>\n' )
         else:
@@ -202,7 +204,7 @@ def TagsOut():
             f.write( '<a href="#" class="tag {0}">'.format(eachkey.lower()) )
             f.write( '{0}</a> [{1}] '.format(eachkey, tagcount[eachkey]) )
             # do markdown conversion
-            marky = markdown.markdown( tagdict[eachkey], extensions=['smartypants'] )
+            marky = markdown.markdown( tagdict[eachkey], extensions=['markdown.extensions.smarty'] )
             f.write( marky[3:-4] )              # strip the unwanted para wrapper for writing
             f.write( '</p>\n' )
     f.close()
@@ -245,7 +247,7 @@ def PageOut(pageID, pageAuth, pageDate, pageDesc, pageNote, pageTags, pageURL, b
 
 def MarkIt( text, classname):
     '''returns a <span> of Markdown converted text or nothing'''
-    marky = markdown.markdown( text, extensions=['smartypants'] )    # markdown conversion of the text
+    marky = markdown.markdown( text, extensions=['markdown.extensions.smarty'] )    # markdown conversion of the text
     if marky != "":                                                      # strip unwanted markdown para for writing
         marky = '<span class="{0}">{1}</span>'.format( classname, marky[3:-4] )
     return marky
