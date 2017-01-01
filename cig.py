@@ -4,6 +4,10 @@
 # version 1.1.0 - adds baseurl, a default url path
 # version 1.1.1 - re-orders output, drops some <br>, formatting now dealt with in css
 # version 1.2.0 - tidy up for python 3.5 (was 2.7), markdown 2.6.5 (was 2.3.1 + smartypants 1.3)
+# version 1.2.1 - fix page: handling to allow whitespace between page: and id
+
+#TODO: use os.path
+#TODO: fix page: handling to allow whitespace between page: and id
 
 import string
 import collections
@@ -108,7 +112,7 @@ def IndexIn(definedtags, totalpages):
             else:                                   # this is the first page:
                 f = codecs.open(pagesfile, mode='w', encoding="utf-8")  # clear the output ready to append
                 f.close()
-            pageID = stripline[5:]
+            pageID = stripline[5:].strip()          #
             pageAuth = ""
             pageDate = ""
             pageDesc = ""
